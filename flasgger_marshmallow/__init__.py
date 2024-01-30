@@ -313,7 +313,7 @@ def swagger_decorator(
         path_schema=None, query_schema=None,
         form_schema=None, json_schema=None,
         headers_schema=None, response_schema=None,
-        tags=None
+        tags=None, validate=False,
 ):
     def decorator(func):
 
@@ -447,7 +447,7 @@ def swagger_decorator(
             :return:
             """
             load_result = schema_class().load(schema_params or {})
-            if load_result.errors:
+            if load_result.errors and validate:
                 raise ValidationError(message=load_result.errors)
             return load_result.data
 
